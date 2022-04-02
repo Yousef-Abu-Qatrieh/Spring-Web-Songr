@@ -1,14 +1,18 @@
 package com.example.songr.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.AccessLevel;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Album {
+    @Setter(value = AccessLevel.NONE)
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
     private String title;
     private String artist;
     private int songCount;
@@ -24,13 +28,16 @@ public class Album {
         this.songCount = songCount;
         this.length = length;
         this.imageUrl = imageUrl;
-    }
 
-    public int getId() {
+    }
+    @OneToMany(mappedBy = "album")
+    private Set<Song> songList;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
